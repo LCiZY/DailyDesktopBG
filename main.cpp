@@ -50,6 +50,7 @@ std::string replaceAndCheckSpalshes(std::string path) {
 
 int main(int argc, char* argv[]) {
 	if (argc < 2) {
+		std::cout << "usage: dailyDesktopBG.exe  ${bgPath} [orderly]\n";
 		return -1;
 	}
 
@@ -64,7 +65,14 @@ int main(int argc, char* argv[]) {
 	if (bgs.size() == 0){
 		return -2;
 	}
-	int index = (time(0) / 86400) % bgs.size();
+	int index = 0;
+	if (argc >= 3 && strcmp(argv[2], "orderly") == 0)
+		index = (time(0) / 86400) % bgs.size();
+	else {
+		srand(time(0));
+		index = rand() % bgs.size();
+	}
+	
 	std::string strPath = replaceAndCheckSpalshes(std::string(argv[1]));
 	const char* path = strPath.append(bgs[index]).c_str();
 	//std::cout << "choose:" << path << "\n";
